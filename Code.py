@@ -1,1 +1,1 @@
-test test test.
+from pygame import *
