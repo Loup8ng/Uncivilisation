@@ -1,6 +1,15 @@
 from pygame import *
 import csv
 
-clas Personnages () : 
-    def __init__ (self) : 
-        self.heal= 
+class Personnages () : 
+    def __init__ (self, hp= 100, attaque =20) : 
+        self.heal= hp 
+        self.atq= attaque
+
+    def taper (self, autrePerso) : 
+            autrePerso.hp -= self.atq
+
+    def set_hp (self, hp= hp) : 
+        self.hp = hp 
+    def get_attq (self) :
+        return self.attq
