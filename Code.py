@@ -16,6 +16,14 @@ class Personnages () :
     def déplacements (self,case) : 
         #mettre tout ce qu'il faut pour faire déplacer le personnage
 
-class carte () :
+class Carte ():
     def __init__ (self) :
         return 0
+
+class fonctionnalité() : 
+    def __init__ (self) : 
+        return 0 
+    def ajouter_perso (self, case) :
+        return 0 
+    def religion (self, religion) :
+        
