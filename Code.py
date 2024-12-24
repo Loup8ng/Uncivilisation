@@ -13,3 +13,5 @@ class Personnages () :
         self.hp = hp 
     def get_attq (self) :
         return self.attq
+
+class  
