@@ -15,15 +15,12 @@ class Personnages () :
         return self.attq
     def déplacements (self,case) : 
         return 0
-        
+
 class carte () :
     def __init__ (self) :
         return 0
-
-class fonctionnalité() : 
+class Interaction_Hexagone ():
     def __init__ (self) : 
-        return 0 
-    def ajouter_perso (self, case) :
-        return 0 
-    def religion (self, religion) :
-        return 0 
+        self.test
+
+        
