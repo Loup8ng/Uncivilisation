@@ -14,8 +14,8 @@ class Personnages () :
     def get_attq (self) :
         return self.attq
     def déplacements (self,case) : 
-        #mettre tout ce qu'il faut pour faire déplacer le personnage
-
+        return 0
+        
 class carte () :
     def __init__ (self) :
         return 0
