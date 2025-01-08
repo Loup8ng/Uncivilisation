@@ -1,4 +1,4 @@
-from pygame import *
+import pygame
 import csv
 
 class Personnages () : 
@@ -23,4 +23,11 @@ class Interaction_Hexagone ():
     def __init__ (self) : 
         self.test
 
-        
+pygame.init()
+
+Continuer = True
+while continuer : 
+    for event.type == QUIT:
+        continuer = False
+    pygame.display.update()
+pygame.quit()
