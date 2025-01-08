@@ -23,4 +23,3 @@ class Interaction_Hexagone ():
     def __init__ (self) : 
         self.test
 
-        
