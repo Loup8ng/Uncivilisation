@@ -65,7 +65,7 @@ class Carte:
     def __init__(self, longueur, largeur):
         self.longueur = longueur
         self.largeur = largeur
-        self.hexagone={}
+        self.hexagones = []
 
 
 
@@ -86,7 +86,7 @@ class Carte:
                 hexagone = Hexagone(x, y)
                 biome = random.choice(["forêt", "montagne", "lac", "plaine"])
                 hexagone.definir_biome(biome)
-                self.hexagone[(i, j)] = hexagone
+                self.hexagones.append(hexagone)
                 
                 y += 173
             if a==1 :
@@ -101,7 +101,7 @@ class Carte:
         """
         Dessine les hexagones en fonction de leur biome.
         """
-        for hexagone in self.hexagone.values():
+        for hexagone in self.hexagones.values():
             if hexagone.biome == "forêt":
                 screen.blit(hexa_foret, (hexagone.x, hexagone.y))
             elif hexagone.biome == "montagne":
@@ -119,7 +119,7 @@ class Carte:
 
         police = pygame.font.Font(None, 50)
 
-        for hexagone in self.hexagone.values():
+        for hexagone in self.hexagones.values():
             x, y = hexagone.x, hexagone.y
             if x <= position[0] <= x + 100 and y <= position[1] <= y + 87:
 
