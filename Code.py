@@ -66,6 +66,7 @@ class Carte:
         self.longueur = longueur
         self.largeur = largeur
         self.hexagones = []
+        self.matrice = []
 
 
 
@@ -83,11 +84,8 @@ class Carte:
         for i in range (self.longueur) :
             liste=[]
             for j in range(self.largeur):
-                hexagone = Hexagone(x, y)
                 biome = random.choice(["forêt", "montagne", "lac", "plaine"])
-                hexagone.definir_biome(biome)
-                self.hexagones.append(hexagone)
-                
+                liste.append({"biome":biome, "x": x, "y":y})
                 y += 173
             if a==1 :
                 y = 87.5
@@ -96,6 +94,7 @@ class Carte:
                 y = 0
                 a = 1
             x += 150
+        self.matrice.append(liste)
 
     def dessin(self):
         """
