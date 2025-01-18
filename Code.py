@@ -108,7 +108,7 @@ class Carte:
 
     def dessin(self):
         """
-        Dessine les hexagones en fonction de leur biome.
+        Dessine les hexagones en fonction de leur biome et leurs coordonnées.
         """
         for i in self.matrice : 
             for j in i :
