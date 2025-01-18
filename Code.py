@@ -18,7 +18,9 @@ hexa_rouge = pygame.image.load("hexagone_rouge.png").convert_alpha()
 hexa_foret = pygame.image.load("hexagone_foret.png").convert_alpha()
 hexa_lac = pygame.image.load("hexagone_lac.png").convert_alpha()
 
-
+class Persnnages(): 
+    def __init__ (self): 
+        pass
 
 class Hexagone:
     def __init__(self, x, y, biome=None):
