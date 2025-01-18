@@ -148,6 +148,7 @@ class Carte:
         pygame.display.flip()
 
         dialog_running = True
+        # la boucle servant à faire fonctionner la fenêtre des propriétés
         while dialog_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
