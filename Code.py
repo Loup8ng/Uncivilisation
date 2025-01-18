@@ -67,6 +67,9 @@ class Hexagone:
 
 class Carte:
     def __init__(self, longueur=longueur, largeur= largeur):
+        """
+        initialise les longueur et largeur de la carte ainsi que la matrice pour la stocker
+        """
         self.longueur = longueur
         self.largeur = largeur
         self.matrice = []
@@ -165,7 +168,7 @@ fbir.dessin()
 pygame.display.flip()
 running= True
 
-
+# la boucle servant à faire fonctionner la fenêtre pygame
 while running: 
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
