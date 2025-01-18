@@ -81,6 +81,9 @@ class Carte:
 
 
     def generation_hexagone (self): 
+        """
+         génères tous les hexagones de la carte toute en les stockan dans une matrice
+        """
         a=1
         x=0
         y=0
