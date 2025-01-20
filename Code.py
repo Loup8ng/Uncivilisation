@@ -22,53 +22,10 @@ class Persnnages():
     def __init__ (self): 
         pass
 
-class Hexagone:
-    def __init__(self, x, y, biome=None):
-        """
-        Initialise un hexagone avec ses coordonnées et son biome.
-         coordonnée X Y
-        et type de biome.  #du coup a changer 
-        """
-        self.x = x
-        self.y = y
-        self.biome = biome
-        self.caracteristiques=None
-
-
-    def definir_biome(self, biome):
-        """
-         biome de l'hexagone et ses caractéristiques.
-        """
-        self.biome=biome
-        if biome == "forêt":
-            self.caracteristique = "bois disponible"
-            consommable_foret =20       # faudra voir comment on peut utiliser les consommables
-        elif biome == "montagne":
-            self.caracteristique = "riche en minerais"
-        elif biome == "lac":
-            self.caracteristique = "lac infranchissable"
-        elif biome == "plaine":
-            self.caracteristique = "terrain facile à traverser"
-
-
-    def recolter_des_ressources(self,biome):   # FAUDRA IMPLEMENTER CETTE FONCTION DANS LA BOUCLE DE JEU par exemple quand une touche est pressée ca récolte des ressources selon son biome aussi 
-        """récolter des ressources selon le biome; il y aura aussi """
-        if self.biome=="forêt" and consommable_foret>0 :
-             #faut aussi mettre apres la selection de l'hexagone a été faite chaque consommbale est different , pas tous les stocker dans la meme variable 
-            b=consommable_foret
-            consommable_foret=0
-    
-    def creer_un_batiment(self):        #pareil que implementer , si c'est u plaine il est possible de créer un "chateau" ou un une ferme etc a voir les autres batiments
-        """creer un bat"""
-        if self.biome=="plaine":
-            self.biome="chateau"    #du coup ce que je veux faire c'est carrément que le biome soit juste remplacé par les propriété du chateau/ d'un point de vue graphique il faudra que ce soit le mm biome juste avec une maison dessus 
-    
-
-
 class Carte:
     def __init__(self, longueur=longueur, largeur= largeur):
         """
-        initialise les longueur et largeur de la carte ainsi que la matrice pour la stocker
+        Initialise les longueur et largeur de la carte ainsi que la matrice pour la stocker.
         """
         self.longueur = longueur
         self.largeur = largeur
@@ -78,7 +35,7 @@ class Carte:
 
     def propager_biome(self, x, y, biome):
         """
-        propage un biome vers les hexagones voisins avec une probabilité de 50% normalement 
+        Propage un biome vers les hexagones voisins avec une probabilité de 50% normalement 
         """
 # j'ai tout supprimé ca marchait pas et ca faisait tout planter 😭😭😭😭😭 ; mais en vrai sans la méthode ça rend pas si mal je trouve 
 
