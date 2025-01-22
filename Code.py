@@ -33,16 +33,16 @@ class Carte:
 
 
 
-    def propager_biome(self, x, y, biome):
+    def propager_biome(self, x : int , y: int, biome : str):
         """
-        Propage un biome vers les hexagones voisins avec une probabilité de 50% normalement 
+        Propage un biome vers les hexagones voisins avec une probabilité de 50% normalement.
         """
 # j'ai tout supprimé ca marchait pas et ca faisait tout planter 😭😭😭😭😭 ; mais en vrai sans la méthode ça rend pas si mal je trouve 
 
 
-    def generation_hexagone (self): 
+    def generation_hexagone (self) -> list: 
         """
-         génères tous les hexagones de la carte toute en les stockan dans une matrice
+         Génères tous les hexagones de la carte toute en les stockan dans une matrice plus d'explications dans le readme.
         """
         a=1
         x=0
@@ -72,7 +72,7 @@ class Carte:
                 screen.blit(j["biome"], (j["x"], j["y"]))  
         pygame.display.flip() 
 
-    def afficher_onglet(self, position):
+    def afficher_onglet(self, position : int):
         """
         Affiche les informations d'un hexagone en fonction de la position cliquée.
         """
