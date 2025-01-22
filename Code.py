@@ -18,9 +18,21 @@ hexa_rouge = pygame.image.load("hexagone_rouge.png").convert_alpha()
 hexa_foret = pygame.image.load("hexagone_foret.png").convert_alpha()
 hexa_lac = pygame.image.load("hexagone_lac.png").convert_alpha()
 
-class Persnnages(): 
+class Unite(): 
+    #classe qui nous servira à faire toutes les méthodes en rapport de nos unités 
+    
+    
     def __init__ (self): 
+
+        #pas encore au stad de travailler avec d'autres joueurs
+        self.hp=hp
+        self.attq=attq
+
+
+    def se_deplacer():
+        """méthode qui servira à déplacer une unité déplacer d'un hexagone à un autre voisin"""
         pass
+    # a faire
 
 class Carte:
     def __init__(self, longueur=longueur, largeur= largeur):
@@ -37,12 +49,12 @@ class Carte:
         """
         Propage un biome vers les hexagones voisins avec une probabilité de 50% normalement 
         """
-# j'ai tout supprimé ca marchait pas et ca faisait tout planter 😭😭😭😭😭 ; mais en vrai sans la méthode ça rend pas si mal je trouve 
+    # a refaire entierement avec le "nouveau" code les hexagones sont pour l'instant générés aléatoirement
 
 
     def generation_hexagone (self): 
         """
-         génères tous les hexagones de la carte toute en les stockan dans une matrice
+         génères tous les hexagones de la carte en les stockant dans une matrice
         """
         a=1
         x=0
@@ -65,7 +77,7 @@ class Carte:
 
     def dessin(self):
         """
-        Dessine les hexagones en fonction de leur biome et leurs coordonnées.
+        Dessine les hexagones en fonction de leurs biomes et leurs coordonnées.
         """
         for i in self.matrice : 
             for j in i :
@@ -74,8 +86,11 @@ class Carte:
 
     def afficher_onglet(self, position):
         """
-        Affiche les informations d'un hexagone en fonction de la position cliquée.
+        Affiche les informations d'un hexagone en fonction de la position de la souris quand un clique est détecté.
         """
+        #probleme : - le click ne marche que en haut à gauche d'un hexagone (affiche un onglet noir si l'hexagone est selectionné en bas )
+        #           - l'onglet ne se déplace pas (si on clique sur un hexagone, l'onglet s'affiche à un seul endroit donc les hexagones en dessous sont inaccessible le fait de clicker une deuxieme fois supprime l'onglet mais ça serait mieux depouvoir le déplacer)
+
         dialog_surface = pygame.Surface((600, 400))
         dialog_surface.fill((50, 50, 50)) 
 
@@ -105,7 +120,8 @@ class Carte:
         pygame.display.flip()
 
         dialog_running = True
-        # la boucle servant à faire fonctionner la fenêtre des propriétés
+
+        # la boucle servant à faire fonctionner l'affichage de l'onglet
         while dialog_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -126,7 +142,7 @@ fbir.dessin()
 pygame.display.flip()
 running= True
 
-# la boucle servant à faire fonctionner la fenêtre pygame
+# la boucle servant à faire fonctionner LE TRUC
 while running: 
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
