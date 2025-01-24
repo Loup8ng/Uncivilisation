@@ -1,5 +1,5 @@
 # Uncivilisation
-                                                                                                        **PAS DE CHAT GPT**
+    **PAS DE CHAT GPT**
 
 Si vous lisez ce Readme, vous avez échangé votre projet et avez récupéré le nôtre, nous voudrions que vous lisiez attentivement celui-ci, vous y trouverez les explications plus détaillées de certaines choses pour comprendre notre code.
 
