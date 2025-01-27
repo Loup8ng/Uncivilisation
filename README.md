@@ -4,4 +4,4 @@ Notre projet est un jeu qui se joue au tour par tour, dans un style un 2D. La ca
 Pour l'utilisation de notre code, vous aurais bessoin des bibliothèques python **pygame**
 
 Nous avons plusieurs petits problèmes avec notre code : 
-    - en premiers nous pouvons citer le fait que la matrice est lourde, mais 
+    - en premiers nous pouvons citer le fait que la matrice est lourde, mais s'il l'on pouvais la mettre dans un fichier Json ce serais 
