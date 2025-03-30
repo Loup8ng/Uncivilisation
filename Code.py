@@ -1,7 +1,5 @@
 import pygame
-import json
 import random
-import math
 
 pygame.init()
 
@@ -9,7 +7,7 @@ screen = pygame.display.set_mode((1400, 800))
 screen.fill((255,255,255))
 pygame.display.flip()
 
-longueur= 9
+longueur = 9
 largeur = 4
 
 background = pygame.transform.scale(pygame.image.load("fond.png"), (1400, 800)).convert_alpha()
@@ -18,140 +16,147 @@ hexa_rouge = pygame.image.load("hexagone_rouge.png").convert_alpha()
 hexa_foret = pygame.image.load("hexagone_foret.png").convert_alpha()
 hexa_lac = pygame.image.load("hexagone_lac.png").convert_alpha()
 
-class Unite(): 
-    #classe qui nous servira à faire toutes les méthodes en rapport de nos unités 
-    
-    
-    def __init__ (self): 
+class Unite:
+    def __init__(self, hp, attq):
+        self.hp = hp
+        self.attq = attq
 
-        #pas encore au stad de travailler avec d'autres joueurs
-        self.hp=hp
-        self.attq=attq
-
-
-    def se_deplacer():
-        """méthode qui servira à déplacer une unité déplacer d'un hexagone à un autre voisin"""
-        pass
-    # a faire
+    def se_deplacer(self):
+        pass  # À implémenter
 
 class Carte:
-    def __init__(self, longueur=longueur, largeur= largeur):
-        """
-        Initialise les longueur et largeur de la carte ainsi que la matrice pour la stocker.
-        """
+    def __init__(self, longueur=longueur, largeur=largeur):
         self.longueur = longueur
         self.largeur = largeur
         self.matrice = []
 
+    def calcul_coordonnées(self, position): 
+        a = 1.7
+        v = 173
+        x0, y0 = position
+        b = 88
+        b_prime = y0 - a * x0
+        
+        liste = []
+        for i in range(self.longueur): 
+            k = 0
+            for j in range(3): 
+                l = a * 500 + b + k * v
+                k += 1
+                liste.append(l)
+        
+        hexa = 200 
+        num_hexa = round (x0 / hexa)  # Assure un entier
+        y1 = a * 500 + b_prime
+
+        liste_d = [0, 1]
+        a = 1
+        while a < self.longueur:
+            a += 2
+            liste_d.append(a)
+        
+        liste_y = [0]
+        for i in range(self.largeur):  
+            liste_y.append(i)
+
+        if 0 <= num_hexa < len(liste):  
+            if liste[num_hexa] - y1 < 86.5: 
+                d = int(liste[num_hexa - 1] // v) if num_hexa > 0 else 0
+            else: 
+                d = int(liste[num_hexa] // v)
+
+            for i in range(len(liste_d) - 1): 
+                if liste_d[i] <= d <= liste_d[i+1] and liste_y[i] <= y1: 
+                    d = min(max(0, d), self.longueur - 1)  # Empêcher les indices hors limites
+                    i = min(max(0, i), self.largeur - 1)  
+                    print(f"Hexagone trouvé: ({d}, {i})")  # Debug
+                    return d, i  # Indices valides
+
+        print("Aucun hexagone trouvé.")  # Debug
+        return None
 
 
-    def propager_biome(self, x : int , y: int, biome : str):
-        """
-        Propage un biome vers les hexagones voisins avec une probabilité de 50% normalement.
-        """
-    # a refaire entierement avec le "nouveau" code les hexagones sont pour l'instant générés aléatoirement
 
-
-    def generation_hexagone (self) -> list: 
-        """
-         Génères tous les hexagones de la carte en les stockant dans une matrice plus d'explications dans le readme.
-        """
-        a=1
-        x=0
-        y=0
-        for i in range (self.longueur) :
-            liste=[]
+    def generation_hexagone(self):
+        a = 1
+        x = 0
+        y = 0
+        for i in range(self.longueur):
+            ligne = []
             for j in range(self.largeur):
                 biome = random.choice([hexa_foret, hexa_rouge, hexa_lac, image])
-                liste.append({"biome":biome, "x": x, "y":y})
-                self.matrice.append(liste)
-                y += 173
-            if a==1 :
-                y = 87.5
+                ligne.append({"biome": biome, "x": x, "y": y})
+                y += 174
+            self.matrice.append(ligne)
+            if a == 1:
+                y = 88
                 a = 0
             else:
                 y = 0
                 a = 1
-            x += 150
-        
+            x += 151
+    
 
     def dessin(self):
-        """
-        Dessine les hexagones en fonction de leurs biomes et leurs coordonnées.
-        """
-        for i in self.matrice : 
-            for j in i :
-                screen.blit(j["biome"], (j["x"], j["y"]))  
-        pygame.display.flip() 
+        for ligne in self.matrice:
+            for hexa in ligne:
+                screen.blit(hexa["biome"], (hexa["x"], hexa["y"]))
+        pygame.display.flip()
 
-    def afficher_onglet(self, position : int):
-        """
-        Affiche les informations d'un hexagone en fonction de la position de la souris quand un clique est détecté.
-        """
-        #probleme : - le click ne marche que en haut à gauche d'un hexagone (affiche un onglet noir si l'hexagone est selectionné en bas )
-        #           - l'onglet ne se déplace pas (si on clique sur un hexagone, l'onglet s'affiche à un seul endroit donc les hexagones en dessous sont inaccessible le fait de clicker une deuxieme fois supprime l'onglet mais ça serait mieux depouvoir le déplacer)
-
+    def afficher_onglet(self, position):
         dialog_surface = pygame.Surface((600, 400))
-        dialog_surface.fill((50, 50, 50)) 
-
+        dialog_surface.fill((50, 50, 50))
         police = pygame.font.Font(None, 50)
 
-        for i in self.matrice: 
-            for j in i:
-                x, y = j["x"], j["y"]
-                if x <= position[0] <= x + 100 and y <= position[1] <= y + 87:
+        coord = self.calcul_coordonnées(position)
+        print (position, coord)
+        if coord:
+            i, j = coord
+            hexa = self.matrice[i][j]
+            x, y = hexa["x"], hexa["y"]
 
-                    if j["biome"] == image:
-                        couleur = "plaine"
-                    elif j["biome"] == hexa_rouge:
-                        couleur = "montagne"
-                    elif j["biome"] == hexa_foret:
-                        couleur = "forêt"
-                    elif j["biome"] == hexa_lac:
-                        couleur = "lac"
+            if hexa["biome"] == image:
+                biome_name = "Plaine"
+            elif hexa["biome"] == hexa_rouge:
+                biome_name = "Montagne"
+            elif hexa["biome"] == hexa_foret:
+                biome_name = "Forêt"
+            else:
+                biome_name = "Lac"
 
-                    texte_couleur = police.render(f"Biome: {couleur}", True, (255, 255, 255))
-                    texte_coord = police.render(f"Coordonnées: ({x}, {y})", True, (255, 255, 255))
+            texte_biome = police.render(f"Biome: {biome_name}", True, (255, 255, 255))
+            texte_coord = police.render(f"Coord: ({x}, {y})", True, (255, 255, 255))
 
-                    dialog_surface.blit(texte_couleur, (50, 100))
-                    dialog_surface.blit(texte_coord, (50, 200))
+            dialog_surface.blit(texte_biome, (50, 100))
+            dialog_surface.blit(texte_coord, (50, 200))
 
         screen.blit(dialog_surface, (625, 300))  
         pygame.display.flip()
 
         dialog_running = True
-
-        # la boucle servant à faire fonctionner l'affichage de l'onglet
         while dialog_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
-                    self.dessin()
                 if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                     dialog_running = False
                     self.dessin()
 
-
-
-
-fbir=Carte()
+fbir = Carte()
 fbir.generation_hexagone()
 screen.blit(background, (0,0))
 fbir.dessin()
 pygame.display.flip()
-running= True
 
-# la boucle servant à faire fonctionner LE TRUC
-while running: 
-    for event in pygame.event.get(): 
-        if event.type == pygame.QUIT: 
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1: 
+            if event.button == 1:
                 position = event.pos
                 fbir.afficher_onglet(position)
-        
-    
 
 pygame.quit()
