@@ -132,34 +132,6 @@ class Carte:
                 a = 1
             x += 150
 
-    def calcul_coordonnées(self, position): 
-        a = 1.7
-        v = 173
-        x0, y0 = position
-        b = 88
-        b_prime = y0 - a * x0
-        
-        liste = []
-        for i in range(self.longueur): 
-            k = 0
-            for j in range(3): 
-                l = a * 500 + b + k * v
-                k += 1
-                liste.append(l)
-        
-        hexa = 200 
-        num_hexa = round (x0 / hexa)  # Assure un entier
-        y1 = a * 500 + b_prime
-
-        liste_d = [0, 1]
-        a = 1
-        while a < self.longueur:
-            a += 2
-            liste_d.append(a)
-        
-        liste_y = [0]
-        for i in range(self.largeur):  
-            liste_y.append(i)
 
     def generer_biome_voisins(self, i, j):
         """
@@ -196,41 +168,83 @@ class Carte:
             hexa_choisi= 0
 
     def afficher_onglet(self, position):
-        """
-        Affiche les informations d'un hexagone en fonction de la position de la souris quand un clique est détecté.
-        """
-        #probleme : - le click ne marche que en haut à gauche d'un hexagone (affiche un onglet noir si l'hexagone est selectionné en bas )
-        #           - l'onglet ne se déplace pas (si on clique sur un hexagone, l'onglet s'affiche à un seul endroit donc les hexagones en dessous sont inaccessible le fait de clicker une deuxieme fois supprime l'onglet mais ça serait mieux depouvoir le déplacer)
 
         dialog_surface = pygame.Surface((600, 400))
-        dialog_surface.fill((50, 50, 50)) 
+
+        dialog_surface.fill((50, 50, 50))
 
         police = pygame.font.Font(None, 50)
 
-        for i in self.matrice: 
-            for j in i:
-                x, y = j["x"], j["y"]
-                if x <= position[0] <= x + 100 and y <= position[1] <= y + 87:
 
-                    if j["biome"] == image:
-                        couleur = "plaine"
-                    elif j["biome"] == hexa_rouge:
-                        couleur = "montagne"
-                    elif j["biome"] == hexa_foret:
-                        couleur = "forêt"
-                    elif j["biome"] == hexa_lac:
-                        couleur = "lac"
 
-                    texte_couleur = police.render(f"Biome: {couleur}", True, (255, 255, 255))
-                    texte_coord = police.render(f"Coordonnées: ({x}, {y})", True, (255, 255, 255))
+        coord = self.calcul_coordonnées(position)
 
-                    dialog_surface.blit(texte_couleur, (50, 100))
-                    dialog_surface.blit(texte_coord, (50, 200))
+        print (position, coord)
+
+        if coord:
+
+            i, j = coord
+
+            hexa = self.matrice[i][j]
+
+            x, y = hexa["x"], hexa["y"]
+
+
+
+            if hexa["biome"] == image:
+
+                biome_name = "Plaine"
+
+            elif hexa["biome"] == hexa_rouge:
+
+                biome_name = "Montagne"
+
+            elif hexa["biome"] == hexa_foret:
+
+                biome_name = "Forêt"
+
+            else:
+
+                biome_name = "Lac"
+
+
+
+            texte_biome = police.render(f"Biome: {biome_name}", True, (255, 255, 255))
+
+            texte_coord = police.render(f"Coord: ({x}, {y})", True, (255, 255, 255))
+
+
+
+            dialog_surface.blit(texte_biome, (50, 100))
+
+            dialog_surface.blit(texte_coord, (50, 200))
+
+
 
         screen.blit(dialog_surface, (625, 300))  
+
         pygame.display.flip()
 
+
+
         dialog_running = True
+
+        while dialog_running:
+
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+
+                    pygame.quit()
+
+                    exit()
+
+                if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+
+                    dialog_running = False
+
+                    self.dessin()
+
 
         # la boucle servant à faire fonctionner l'affichage de l'onglet
         while dialog_running:
