@@ -4,7 +4,6 @@ import random
 import math
 
 pygame.init()
-
 screen = pygame.display.set_mode((1400, 800))
 screen.fill((255,255,255))
 pygame.display.flip()
@@ -18,45 +17,9 @@ hexa_rouge = pygame.image.load("Assets/hexagone_rouge.png").convert_alpha()
 hexa_foret = pygame.image.load("Assets/hexagone_foret.png").convert_alpha()
 hexa_lac = pygame.image.load("Assets/hexagone_lac.png").convert_alpha()
 
-
-class Unite:
-    def __init__(self, pv, attq, deplacement):
-        """
-        classe de base pour une unité.
-        """
-        self.pv = pv
-        self.attq = attq
-        self.deplacement = deplacement
-    
-    def est_vivant(self):
-        return self.pv > 0
-
-    def attaquer(self, autre_unite):
-        autre_unite.subir_degats(self.attq)
-    
-    def subir_degats(self, degats):
-        self.pv -= degats
-
-
-class Epeiste(Unite):
-    def __init__(self):
-        """
-        crée une unité de type epeiste avec des caractéristiques spécifiques.
-        """
-        super().__init__(pv=200, attq=50, deplacement=1)  # Épéiste a 200 PV, 50 d'attaque et 1 point de déplacement
-
-class Lancier(Unite):
-    def __init__(self):
-        """
-        crée une unité de type lancier avec des caractéristiques spécifiques.
-        """
-        super().__init__(pv=200, attq=75, deplacement=3)  # Lancier a 200 PV, 75 d'attaque et 3 points de déplacement
-
 class Carte:
     def __init__(self, longueur=longueur, largeur= largeur):
-        """
-        Initialise les longueur et largeur de la carte ainsi que la matrice pour la stocker.
-        """
+        """Initialise les longueur et largeur de la carte ainsi que la matrice pour la stocker."""
         self.longueur = longueur
         self.largeur = largeur
         self.matrice = []
@@ -69,7 +32,6 @@ class Carte:
         x0, y0 = position
         b = 88
         b_prime = y0 - a * x0
-        
         liste = []
         for i in range(self.longueur): 
             k = 0
@@ -77,42 +39,33 @@ class Carte:
                 l = a * 500 + b + k * v
                 k += 1
                 liste.append(l)
-        
         hexa = 200 
         num_hexa = round (x0 / hexa)  # Assure un entier
         y1 = a * 500 + b_prime
-
         liste_d = [0, 1]
         a = 1
         while a < self.longueur:
             a += 2
             liste_d.append(a)
-        
         liste_y = [0]
         for i in range(self.largeur):  
             liste_y.append(i)
-
         if 0 <= num_hexa < len(liste):  
             if liste[num_hexa] - y1 < 86.5: 
                 d = int(liste[num_hexa - 1] // v) if num_hexa > 0 else 0
             else: 
                 d = int(liste[num_hexa] // v)
-
             for i in range(len(liste_d) - 1): 
                 if liste_d[i] <= d <= liste_d[i+1] and liste_y[i] <= y1: 
                     d = min(max(0, d), self.longueur - 1)  # Empêcher les indices hors limites
                     i = min(max(0, i), self.largeur - 1)  
                     print(f"Hexagone trouvé: ({d}, {i})")  # Debug
                     return d, i  # Indices valides
-
         print("Aucun hexagone trouvé.")  # Debug
         return None
 
-
     def generation_hexagone (self): 
-        """
-         génère tous les hexagones de la carte en les stockant dans une matrice
-        """
+        """Génère tous les hexagones de la carte en les stockant dans une matrice"""
         a=1
         x=0
         y=0
@@ -121,7 +74,6 @@ class Carte:
             for j in range(self.largeur):
                 biome = self.generer_biome_voisins(i,j)
                 liste.append({"biome":biome, "x": x, "y":y})
-                
                 y += 173
             self.matrice.append(liste)
             if a==1 :
@@ -132,11 +84,8 @@ class Carte:
                 a = 1
             x += 150
 
-
     def generer_biome_voisins(self, i, j):
-        """
-        Génère un biome en fonction des voisins. Si un voisin est une forêt, il y a 50% de chance de devenir une forêt.
-        """
+        """Génère un biome en fonction des voisins. Si un voisin est une forêt, il y a 50% de chance de devenir une forêt."""
         voisins = None
         biome_choisi = random.choice([hexa_rouge, hexa_lac, image])  # Par défaut, un des biomes "naturels" au hasard
         return biome_choisi
@@ -148,19 +97,12 @@ class Carte:
      #   if hexa_lac in voisins and random.random() < 0.5:
       #      biome_choisi = hexa_lac
 
-
-
     def dessin(self):
-        """
-        Dessine les hexagones en fonction de leurs biomes et leurs coordonnées.
-        """
+        """Dessine les hexagones en fonction de leurs biomes et leurs coordonnées."""
         for i in self.matrice: 
             for j in i :
                 screen.blit(j["biome"], (j["x"] + self.clic_x, j["y"] + self.clic_y)) 
         pygame.display.flip()
-       
-
-
 
     def deplacement (self,autre_hexa):
         """méthode qui servira à selectionner une unité dans un hexagone"""
@@ -168,84 +110,39 @@ class Carte:
             hexa_choisi= 0
 
     def afficher_onglet(self, position):
-
         dialog_surface = pygame.Surface((600, 400))
-
         dialog_surface.fill((50, 50, 50))
-
         police = pygame.font.Font(None, 50)
-
-
-
         coord = self.calcul_coordonnées(position)
-
         print (position, coord)
-
         if coord:
-
             i, j = coord
-
             hexa = self.matrice[i][j]
-
             x, y = hexa["x"], hexa["y"]
-
-
-
             if hexa["biome"] == image:
-
                 biome_name = "Plaine"
-
             elif hexa["biome"] == hexa_rouge:
-
                 biome_name = "Montagne"
-
             elif hexa["biome"] == hexa_foret:
-
                 biome_name = "Forêt"
-
             else:
-
                 biome_name = "Lac"
-
-
-
             texte_biome = police.render(f"Biome: {biome_name}", True, (255, 255, 255))
-
             texte_coord = police.render(f"Coord: ({x}, {y})", True, (255, 255, 255))
-
-
-
             dialog_surface.blit(texte_biome, (50, 100))
-
             dialog_surface.blit(texte_coord, (50, 200))
-
-
-
         screen.blit(dialog_surface, (625, 300))  
-
         pygame.display.flip()
-
-
-
         dialog_running = True
 
         while dialog_running:
-
             for event in pygame.event.get():
-
                 if event.type == pygame.QUIT:
-
                     pygame.quit()
-
                     exit()
-
                 if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
-
                     dialog_running = False
-
                     self.dessin()
-
-
         # la boucle servant à faire fonctionner l'affichage de l'onglet
         while dialog_running:
             for event in pygame.event.get():
@@ -257,9 +154,6 @@ class Carte:
                     dialog_running = False
                     self.dessin()
 
-
-
-
 fbir=Carte()
 fbir.generation_hexagone()
 screen.blit(background, (0,0))
@@ -269,7 +163,7 @@ running= True
 swip = False  
 start_x, start_y = 0, 0 
 
-# la boucle servant à faire fonctionner LE TRUC
+# la boucle servant à faire fonctionner LE TRUC 
 while running: 
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
@@ -298,7 +192,4 @@ while running:
     pygame.display.flip()   
 
 pygame.quit()
-
-
-
 #objectif de la rentrée/ ajouter de la generation logique  aleatoire / deplacer les unités sur la carte/ deplacement de la carte 
