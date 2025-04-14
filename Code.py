@@ -12,11 +12,11 @@ pygame.display.flip()
 longueur= 20
 largeur = 12
 
-background = pygame.transform.scale(pygame.image.load("fond.png"), (1400, 800)).convert_alpha()
-image = pygame.image.load("plaine.png").convert_alpha()
-hexa_rouge = pygame.image.load("hexagone_rouge.png").convert_alpha()
-hexa_foret = pygame.image.load("hexagone_foret.png").convert_alpha()
-hexa_lac = pygame.image.load("hexagone_lac.png").convert_alpha()
+background = pygame.transform.scale(pygame.image.load("Assets/fond.png"), (1400, 800)).convert_alpha()
+image = pygame.image.load("Assets/plaine.png").convert_alpha()
+hexa_rouge = pygame.image.load("Assets/hexagone_rouge.png").convert_alpha()
+hexa_foret = pygame.image.load("Assets/hexagone_foret.png").convert_alpha()
+hexa_lac = pygame.image.load("Assets/hexagone_lac.png").convert_alpha()
 
 
 class Unite:
