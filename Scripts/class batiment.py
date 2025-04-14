@@ -9,8 +9,8 @@ class batiment():
         self.nom= nom
         self.cout= cout
         self.temps_construction = temps_construction
-        self.capacite_stockage = capacite_stockage if capacite_stockage != 0
-        self.prerequis = prerequis if prerequis != []
+        #self.capacite_stockage = capacite_stockage if capacite_stockage != 0
+        #self.prerequis = prerequis if prerequis != []
 
         def afficher_infos(self):
             """Afficher l'ensemble des informations du batiments"""
