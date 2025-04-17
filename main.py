@@ -11,7 +11,6 @@ pack = TexturePack("Assets/Realistic_Pack/Realistic_Pack.json")
 
 fond = "Assets/fond.png"
 monde = Carte(50, 22, fond)
-biomes_disponibles = ["montagne", "plaine", "foret", "sable", "lac"]
 monde.generer(biomes_disponibles)
 hexa = Hexagone((OFFSET_X,OFFSET_Y), 'montagne')
 running= True

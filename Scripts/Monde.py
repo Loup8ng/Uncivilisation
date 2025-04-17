@@ -3,14 +3,6 @@ import math
 import random
 from Scripts.Variables_Globales import *
 
-biome_weights = {
-    "plaine":     {"plaine": 40, "foret": 50, "sable": 10},
-    "foret":      {"foret": 30, "plaine": 10, "montagne": 60},
-    "montagne":   {"montagne": 40, "foret": 30, "plaine": 30},
-    "sable":      {"sable": 30, "plaine": 15, "lac": 55},
-    "lac":        {"lac": 70, "sable": 25, "plaine": 5}
-}
-
 class Hexagone:
     def __init__(self, coordonnees_px:list[float, float], biome:str, coord_q:int = 0, coord_r:int = 0):
         self.radius = HEX_RADIUS
@@ -19,11 +11,11 @@ class Hexagone:
         self.biome = biome
     
     def charger_sprite(self, chemin_sprite:str) -> None:
-        """Charge le sprite d'un hexagone de la bonne taille"""
+        """Charge le sprite d'un hexagone de la bonne taille (ajout d'un pixel de long et large pour éviter le gap entre les hexs)"""
         return pygame.transform.scale(pygame.image.load(chemin_sprite).convert_alpha(),(int(self.radius * 2 + 1), int(self.radius_vertical() * 2 + 1)))
 
     def pixel_to_hex(self, mouse_coord:tuple[float, float]) -> tuple[int, int]:
-        """Convertie un point de coordonées x,y en coordonées axiales"""
+        """Converti un point de coordonées x,y en coordonées axiales"""
         mouse_x = mouse_coord[0] - OFFSET_X
         mouse_y = mouse_coord[1] - OFFSET_Y
         coord_q = int((2/3 * mouse_x) / self.radius)
@@ -65,10 +57,11 @@ class Carte:
         self.grid = []
 
     def charger_background(self, chemin_sprite:str) -> None:
+        """Charge la texture du fond à la taille de l'écran"""
         return pygame.transform.scale(pygame.image.load(chemin_sprite), (SCREEN_WIDTH, SCREEN_HEIGHT)).convert_alpha()
 
     def creer_un_hex(self, coordonnees_px:tuple[float, float], chemin_sprite:str) -> Hexagone:
-        """Créer un hexagone avec un radius et une position la texture est indiquée avec chemin_sprite"""
+        """Créer un hexagone avec un radius et une position, la texture est indiquée avec chemin_sprite"""
         return Hexagone(coordonnees_px, chemin_sprite)
 
     def get_voisins(self, coord_q, coord_r) -> list[Hexagone]:
@@ -77,11 +70,11 @@ class Carte:
                       (-1,  0), (0, -1), (+1, -1)]
         voisins = []
         for direction_q, direction_r in directions:
-            nq = coord_q + direction_q
-            nr = coord_r + direction_r
-            if 0 <= nq < self.grid_width and 0 <= nr < self.grid_height:
+            coord_voisin_q = coord_q + direction_q
+            coord_voisin_r = coord_r + direction_r
+            if 0 <= coord_voisin_q < self.grid_width and 0 <= coord_voisin_r < self.grid_height:
                 try:
-                    voisins.append(self.grid[nq][nr])
+                    voisins.append(self.grid[coord_voisin_q][coord_voisin_r])
                 except IndexError:
                     continue
         return voisins
@@ -110,16 +103,14 @@ class Carte:
                         if voisin:
                             biome = voisin.biome
                             influence = biome_weights.get(biome, {})
-                            for b, poids in influence.items():
-                                biome_scores[b] = biome_scores.get(b, 0) + poids
-                    total = sum(biome_scores.values())
+                            for biome, poids in influence.items():
+                                biome_scores[biome] = biome_scores.get(biome, 0) + poids
                     biomes_possibles = list(biome_scores.keys())
                     poids_biomes = list(biome_scores.values())
-                    choix = random.choices(biomes_possibles, weights=poids_biomes, k=1)[0]
+                    biome_choisi = random.choices(biomes_possibles, weights=poids_biomes, k=1)[0]
                 else:
-                    choix = random.choice(biomes)
-
-                colonne.append(Hexagone(coord_px, choix, coord_q, coord_r))
+                    biome_choisi = random.choice(biomes)
+                colonne.append(Hexagone(coord_px, biome_choisi, coord_q, coord_r))
             self.grid.append(colonne)
 
     def dessin(self, screen, texture_pack):
