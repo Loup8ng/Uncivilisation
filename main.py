@@ -10,9 +10,10 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pack = TexturePack("Assets/Realistic_Pack/Realistic_Pack.json")
 
 fond = "Assets/fond.png"
-monde = Carte(5, 5, fond)
-monde.generer_hexagones(pack.get("foret"))
-hexa = Hexagone((OFFSET_X,OFFSET_Y), pack.get("montagne"))
+monde = Carte(50, 22, fond)
+biomes_disponibles = ["montagne", "plaine", "foret", "sable", "lac"]
+monde.generer(biomes_disponibles)
+hexa = Hexagone((OFFSET_X,OFFSET_Y), 'montagne')
 running= True
 #swip = False
 
@@ -26,6 +27,6 @@ while running:
             print(coord_hex)
 
     screen.fill((255, 255, 255)) 
-    monde.dessin(screen)
+    monde.dessin(screen, pack)
     pygame.display.flip()
     clock.tick(FRAMERATE)
