@@ -45,3 +45,9 @@ class Lancier(Unite):
         crée une unité de type lancier avec des caractéristiques spécifiques.
         """
         super().__init__(pv=200, attq=75, deplacement=3)  # Lancier a 200 PV, 75 d'attaque et 3 points de déplacement
+
+
+def deplacement (self,autre_hexa):
+    """méthode qui servira à selectionner une unité dans un hexagone"""
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        hexa_choisi= 0

@@ -1,13 +1,106 @@
 import pygame
 import json
 import random
+import math
 from Scripts.Variables_Globales import *
 
+class Hexagone:
+    def __init__(self, position:list[float, float], chemin_sprite:str, q:int = 0, r:int = 0):
+        """Toutes les valeurs float doivent êtres exprimés en px."""
+        self.radius = HEX_RADIUS
+        self.position = position
+        self.coordonnées_hex = [q, r]
+        self.vertices = self.calcul_vertices()
+        self.texture = self.charger_texture(chemin_sprite)
+        self.biome = 0
+        self.couleur = (0, 220, 255)
+    
+    def charger_texture(self, chemin_sprite:str) -> None:
+        return pygame.transform.scale(pygame.image.load(chemin_sprite).convert_alpha(),(int(self.radius * 2), int(self.radius_vertical() * 2)))
+
+    def calcul_vertices(self):
+        """Renvoie une liste des sommets de l'hexagone depuis le centre"""
+        cx, cy = self.coord_centre()
+        points = []
+        for i in range(6):
+            angle_deg = 60 * i
+            angle_rad = math.radians(angle_deg)
+            x = cx + self.radius * math.cos(angle_rad)
+            y = cy + self.radius * math.sin(angle_rad)
+            points.append((x, y))
+        return points
+
+
+    def axial_round(self, q, r):
+        q_round = round(q)
+        r_round = round(r)
+        s_round = round(-q - r)
+        q_diff = abs(q_round - q)
+        r_diff = abs(r_round - r)
+        s_diff = abs(s_round - (-q - r))
+
+        if q_diff > r_diff and q_diff > s_diff:
+            q_round = -r_round - s_round
+        elif r_diff > s_diff:
+            r_round = -q_round - s_round
+        return (q_round, r_round)
+
+    def pixel_to_flat_hex(self, mouse_coord: tuple[float, float]) -> tuple[int, int]:
+        """Convertit des coordonnées pixels en coordonnées hex axiales (q, r), 
+        compatibles avec le système odd-q (colonnes impaires décalées vers le bas)."""
+        mx = mouse_coord[0] - OFFSET_X
+        my = mouse_coord[1] - OFFSET_Y
+
+        # Étape 1 : coordonnées en colonne/ligne (offset)
+        q = int((2/3 * mx) / self.radius)
+        x_offset = q * self.radius * 3/2
+        y_offset = my - (self.radius_vertical() * (q % 2))
+
+        r_offset = int(y_offset / (self.radius_vertical() * 2))
+
+        # Étape 2 : conversion offset -> axial
+        r = r_offset - (q - (q % 2)) // 2
+
+        return (q, r)
+
+
+    def collision_point(self, coord_point:tuple[float, float]) -> bool:
+        """Return True si l'hexagone touche le point"""
+        return math.dist(coord_point, self.coord_centre()) < self.radius_vertical()
+
+    def coord_centre(self) -> tuple[float, float]:
+        """Renvoie les coordonnées (x, y) du centre de l'hexagone"""
+        x, y = self.position
+        return (x + self.radius / 2, y + self.radius_vertical())
+
+    def radius_vertical(self) -> float:
+        """Radius vertical de l'hexagone"""
+        return self.radius * math.cos(math.radians(30))
+
+    def dessin(self, screen) -> None:
+        """Dessine l'image de l'hexagone centrée sur son centre logique + les coordonnées axiales."""
+        centre_x, centre_y = self.coord_centre()
+        rect = self.texture.get_rect()
+        
+        # Dessin de la texture centrée
+        screen.blit(self.texture, (centre_x - rect.width // 2, centre_y - rect.height // 2))
+
+        # Affichage d'un petit carré rouge pour visualiser l'origine
+        screen.fill((255, 0, 0), (centre_x - 2, centre_y - 2, 4, 4))
+
+        # Affichage des coordonnées q, r
+        font = pygame.font.Font(None, 24)
+        coord_text = font.render(f"{self.coordonnées_hex[0]}, {self.coordonnées_hex[1]}", True, (0, 0, 0))
+        text_rect = coord_text.get_rect(center=(centre_x, centre_y))
+        screen.blit(coord_text, text_rect)
+
+
 class Carte:
-    def __init__(self, longueur, largeur):
+    def __init__(self, longueur, largeur, background):
         """Initialise les longueur et largeur de la carte ainsi que la matrice pour la stocker."""
         self.longueur = longueur
         self.largeur = largeur
+        self.background = self.charger_background(background)
         self.matrice = []
         self.clic_x = 0  
         self.clic_y = 0
@@ -15,66 +108,31 @@ class Carte:
     def charger_background(self, chemin_sprite:str) -> None:
         return pygame.transform.scale(pygame.image.load(chemin_sprite), (SCREEN_HEIGHT, SCREEN_WIDTH)).convert_alpha()
 
-    def charger_hex(self, chemin_sprite:str) -> None:
-        return pygame.image.load(chemin_sprite).convert_alpha()
+    def creer_un_hex(self, position:tuple[float, float], chemin_sprite:str) -> list[Hexagone]:
+        """Créer un hexagone avec un radius et une position la texture est indiquée avec chemin_sprite"""
+        return Hexagone(position, chemin_sprite)
+    
+    def generer_hexagones(self, chemin_sprite:str):
+        """Génère une grille d'hexagones en coordonnées axiales q, r
+        avec correspondance au système "odd-q" offset de RedBlobGames,
+        tout en gardant pixel_to_flat_hex() cohérent."""
+        self.matrice = []
+        for q in range(self.largeur):
+            colonne = []
+            q_offset = q
+            for r in range(self.longueur):
+                # Conversion des coord axiales -> pixel
+                x = OFFSET_X + HEX_RADIUS * 3/2 * q_offset
+                y = OFFSET_Y + HEX_RADIUS * math.sqrt(3) * (r + 0.5 * (q_offset % 2))
+                position = [x, y]
 
-    def calcul_coordonnées(self, position): 
-        a = 1.7
-        v = 173
-        x0, y0 = position
-        b = 88
-        b_prime = y0 - a * x0
-        liste = []
-        for i in range(self.longueur): 
-            k = 0
-            for j in range(3): 
-                l = a * 500 + b + k * v
-                k += 1
-                liste.append(l)
-        hexa = 200 
-        num_hexa = round (x0 / hexa)  # Assure un entier
-        y1 = a * 500 + b_prime
-        liste_d = [0, 1]
-        a = 1
-        while a < self.longueur:
-            a += 2
-            liste_d.append(a)
-        liste_y = [0]
-        for i in range(self.largeur):  
-            liste_y.append(i)
-        if 0 <= num_hexa < len(liste):  
-            if liste[num_hexa] - y1 < 86.5: 
-                d = int(liste[num_hexa - 1] // v) if num_hexa > 0 else 0
-            else: 
-                d = int(liste[num_hexa] // v)
-            for i in range(len(liste_d) - 1): 
-                if liste_d[i] <= d <= liste_d[i+1] and liste_y[i] <= y1: 
-                    d = min(max(0, d), self.longueur - 1)  # Empêcher les indices hors limites
-                    i = min(max(0, i), self.largeur - 1)  
-                    print(f"Hexagone trouvé: ({d}, {i})")  # Debug
-                    return d, i  # Indices valides
-        print("Aucun hexagone trouvé.")  # Debug
-        return None
+                # Conversion coordonnées de la grille (r,c) -> axiales selon odd-q
+                axial_r = r - (q_offset - (q_offset % 2)) // 2
+                axial_q = q_offset
 
-    def generation_hexagone (self, hexa_rouge, hexa_lac, image): 
-        """Génère tous les hexagones de la carte en les stockant dans une matrice"""
-        a=1
-        x=0
-        y=0
-        for i in range (self.longueur) :
-            liste=[]
-            for j in range(self.largeur):
-                biome = self.generer_biome_voisins(i,j, hexa_rouge, hexa_lac, image)
-                liste.append({"biome":biome, "x": x, "y":y})
-                y += 173
-            self.matrice.append(liste)
-            if a==1 :
-                y = 88
-                a = 0
-            else:
-                y = 0
-                a = 1
-            x += 150
+                hexagone = Hexagone(position, chemin_sprite, axial_q, axial_r)
+                colonne.append(hexagone)
+            self.matrice.append(colonne)
 
     def generer_biome_voisins(self, i, j, hexa_rouge, hexa_lac, image):
         """Génère un biome en fonction des voisins. Si un voisin est une forêt, il y a 50% de chance de devenir une forêt."""
@@ -90,39 +148,32 @@ class Carte:
       #      biome_choisi = hexa_lac
 
     def dessin(self, screen):
-        """Dessine les hexagones en fonction de leurs biomes et leurs coordonnées."""
-        for i in self.matrice: 
-            for j in i :
-                screen.blit(j["biome"], (j["x"] + self.clic_x, j["y"] + self.clic_y)) 
-        pygame.display.flip()
+        """Dessine tous les hexagones sur l'écran."""
+        screen.blit(self.background, (0, 0))
+        for ligne in self.matrice:
+            for hexagone in ligne:
+                hexagone.dessin(screen)
 
-    def deplacement (self,autre_hexa):
-        """méthode qui servira à selectionner une unité dans un hexagone"""
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            hexa_choisi= 0
-
-    def afficher_onglet(self, position, screen, hexa_rouge, hexa_lac, image):
+    def afficher_onglet(self, position, screen, test:Hexagone):
         dialog_surface = pygame.Surface((600, 400))
         dialog_surface.fill((50, 50, 50))
         police = pygame.font.Font(None, 50)
-        coord = self.calcul_coordonnées(position)
-        print (position, coord)
-        if coord:
-            i, j = coord
-            hexa = self.matrice[i][j]
-            x, y = hexa["x"], hexa["y"]
-            if hexa["biome"] == image:
-                biome_name = "Plaine"
-            elif hexa["biome"] == hexa_rouge:
-                biome_name = "Montagne"
-            elif hexa["biome"] == hexa_foret:
-                biome_name = "Forêt"
-            else:
-                biome_name = "Lac"
-            texte_biome = police.render(f"Biome: {biome_name}", True, (255, 255, 255))
-            texte_coord = police.render(f"Coord: ({x}, {y})", True, (255, 255, 255))
-            dialog_surface.blit(texte_biome, (50, 100))
-            dialog_surface.blit(texte_coord, (50, 200))
+        print (test.position)
+            #i, j = coord
+            #hexa = self.matrice[i][j]
+            #x, y = hexa["x"], hexa["y"]
+            #if hexa["biome"] == image:
+            #    biome_name = "Plaine"
+            #elif hexa["biome"] == hexa_rouge:
+            #    biome_name = "Montagne"
+            #elif hexa["biome"] == hexa_foret:
+            #    biome_name = "Forêt"
+            #else:
+            #    biome_name = "Lac"
+            #texte_biome = police.render(f"Biome: {biome_name}", True, (255, 255, 255))
+        texte_coord = police.render(f"Coord: {test.position}", True, (255, 255, 255))
+            #dialog_surface.blit(texte_biome, (50, 100))
+        dialog_surface.blit(texte_coord, (50, 200))
         screen.blit(dialog_surface, (625, 300))  
         pygame.display.flip()
         dialog_running = True
