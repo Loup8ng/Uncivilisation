@@ -1,26 +1,24 @@
 import pygame
 from Scripts.Monde import *
 from Scripts.Variables_Globales import *
+from Scripts.TextureManager import * 
 
 pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-fond = "Assets/fond.png"
-hexa_plaine = "Assets/plaine.png"
-hexa_rouge = "Assets/hexagone_rouge.png"
-hexa_foret = "Assets/hexagone_foret.png"
-hexa_lac = "Assets/hexagone_lac.png"
+pack = TexturePack("Assets/Realistic_Pack/Realistic_Pack.json")
 
-monde=Carte(5, 5, fond)
-monde.generer_hexagones(hexa_plaine)
-hexa = Hexagone((OFFSET_X,OFFSET_Y), hexa_rouge)
+fond = "Assets/fond.png"
+monde = Carte(5, 5, fond)
+monde.generer_hexagones(pack.get("foret"))
+hexa = Hexagone((OFFSET_X,OFFSET_Y), pack.get("montagne"))
 running= True
-#swip = False   
+#swip = False
 
 while running: 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT: 
+        if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()

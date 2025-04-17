@@ -11,7 +11,7 @@ class Hexagone:
     
     def charger_sprite(self, chemin_sprite:str) -> None:
         """Charge le sprite d'un hexagone de la bonne taille"""
-        return pygame.transform.scale(pygame.image.load(chemin_sprite).convert_alpha(),(int(self.radius * 2), int(self.radius_vertical() * 2)))
+        return pygame.transform.scale(pygame.image.load(chemin_sprite).convert_alpha(),(int(self.radius * 2 + 1), int(self.radius_vertical() * 2 + 1)))
 
     def pixel_to_hex(self, mouse_coord:tuple[float, float]) -> tuple[int, int]:
         """Convertie un point de coordonées x,y en coordonées axiales"""
@@ -81,7 +81,7 @@ class Carte:
 
     def dessin(self, screen):
         """Dessine la grille d'hexagones sur l'écran. Ainsi que l'image de fond"""
-        screen.blit(self.background, (0, 0))
+        screen.blit(self.background, (0,0))
         for lines in self.grid:
             for hexagone in lines:
                 hexagone.dessin(screen, True)
