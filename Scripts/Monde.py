@@ -4,7 +4,7 @@ import random
 from Scripts.Variables_Globales import *
 
 class Hexagone:
-    def __init__(self, coordonnees_pixels:list[float, float], biome:str, coord_q:int = 0, coord_r:int = 0):
+    def __init__(self, coordonnees_pixels:list[float, float], biome:str ="", coord_q:int = 0, coord_r:int = 0):
         self.radius = HEX_RADIUS
         self.coordonnees_pixels = coordonnees_pixels
         self.coordonnees_axiales = [coord_q, coord_r]

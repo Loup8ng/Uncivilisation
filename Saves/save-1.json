@@ -1,0 +1,986 @@
+{
+  "grid_width": 17,
+  "grid_height": 12,
+  "hexagones": [
+    {
+      "coord_q": 0,
+      "coord_r": 0,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 0,
+      "coord_r": 1,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 0,
+      "coord_r": 2,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 0,
+      "coord_r": 3,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 0,
+      "coord_r": 4,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 0,
+      "coord_r": 5,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 0,
+      "coord_r": 6,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 0,
+      "coord_r": 7,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 0,
+      "coord_r": 8,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 0,
+      "coord_r": 9,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 0,
+      "coord_r": 10,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 0,
+      "coord_r": 11,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 1,
+      "coord_r": 0,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 1,
+      "coord_r": 1,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 1,
+      "coord_r": 2,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 1,
+      "coord_r": 3,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 1,
+      "coord_r": 4,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 1,
+      "coord_r": 5,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 1,
+      "coord_r": 6,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 1,
+      "coord_r": 7,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 1,
+      "coord_r": 8,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 1,
+      "coord_r": 9,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 1,
+      "coord_r": 10,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": -1,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": 0,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": 1,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": 2,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": 3,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": 4,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": 5,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": 6,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": 7,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": 8,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": 9,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 2,
+      "coord_r": 10,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 3,
+      "coord_r": -1,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 3,
+      "coord_r": 0,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 3,
+      "coord_r": 1,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 3,
+      "coord_r": 2,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 3,
+      "coord_r": 3,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 3,
+      "coord_r": 4,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 3,
+      "coord_r": 5,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 3,
+      "coord_r": 6,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 3,
+      "coord_r": 7,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 3,
+      "coord_r": 8,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 3,
+      "coord_r": 9,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": -2,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": -1,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": 0,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": 1,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": 2,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": 3,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": 4,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": 5,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": 6,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": 7,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": 8,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 4,
+      "coord_r": 9,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 5,
+      "coord_r": -2,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 5,
+      "coord_r": -1,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 5,
+      "coord_r": 0,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 5,
+      "coord_r": 1,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 5,
+      "coord_r": 2,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 5,
+      "coord_r": 3,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 5,
+      "coord_r": 4,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 5,
+      "coord_r": 5,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 5,
+      "coord_r": 6,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 5,
+      "coord_r": 7,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 5,
+      "coord_r": 8,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": -3,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": -2,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": -1,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": 0,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": 1,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": 2,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": 3,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": 4,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": 5,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": 6,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": 7,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 6,
+      "coord_r": 8,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 7,
+      "coord_r": -3,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 7,
+      "coord_r": -2,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 7,
+      "coord_r": -1,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 7,
+      "coord_r": 0,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 7,
+      "coord_r": 1,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 7,
+      "coord_r": 2,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 7,
+      "coord_r": 3,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 7,
+      "coord_r": 4,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 7,
+      "coord_r": 5,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 7,
+      "coord_r": 6,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 7,
+      "coord_r": 7,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": -4,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": -3,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": -2,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": -1,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": 0,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": 1,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": 2,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": 3,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": 4,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": 5,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": 6,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 8,
+      "coord_r": 7,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 9,
+      "coord_r": -4,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 9,
+      "coord_r": -3,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 9,
+      "coord_r": -2,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 9,
+      "coord_r": -1,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 9,
+      "coord_r": 0,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 9,
+      "coord_r": 1,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 9,
+      "coord_r": 2,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 9,
+      "coord_r": 3,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 9,
+      "coord_r": 4,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 9,
+      "coord_r": 5,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 9,
+      "coord_r": 6,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": -5,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": -4,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": -3,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": -2,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": -1,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": 0,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": 1,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": 2,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": 3,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": 4,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": 5,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 10,
+      "coord_r": 6,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 11,
+      "coord_r": -5,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 11,
+      "coord_r": -4,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 11,
+      "coord_r": -3,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 11,
+      "coord_r": -2,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 11,
+      "coord_r": -1,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 11,
+      "coord_r": 0,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 11,
+      "coord_r": 1,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 11,
+      "coord_r": 2,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 11,
+      "coord_r": 3,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 11,
+      "coord_r": 4,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 11,
+      "coord_r": 5,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": -6,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": -5,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": -4,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": -3,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": -2,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": -1,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": 0,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": 1,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": 2,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": 3,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": 4,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 12,
+      "coord_r": 5,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 13,
+      "coord_r": -6,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 13,
+      "coord_r": -5,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 13,
+      "coord_r": -4,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 13,
+      "coord_r": -3,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 13,
+      "coord_r": -2,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 13,
+      "coord_r": -1,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 13,
+      "coord_r": 0,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 13,
+      "coord_r": 1,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 13,
+      "coord_r": 2,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 13,
+      "coord_r": 3,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 13,
+      "coord_r": 4,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": -7,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": -6,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": -5,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": -4,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": -3,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": -2,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": -1,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": 0,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": 1,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": 2,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": 3,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 14,
+      "coord_r": 4,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 15,
+      "coord_r": -7,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 15,
+      "coord_r": -6,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 15,
+      "coord_r": -5,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 15,
+      "coord_r": -4,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 15,
+      "coord_r": -3,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 15,
+      "coord_r": -2,
+      "biome": "sable"
+    },
+    {
+      "coord_q": 15,
+      "coord_r": -1,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 15,
+      "coord_r": 0,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 15,
+      "coord_r": 1,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 15,
+      "coord_r": 2,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 15,
+      "coord_r": 3,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": -8,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": -7,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": -6,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": -5,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": -4,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": -3,
+      "biome": "lac"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": -2,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": -1,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": 0,
+      "biome": "plaine"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": 1,
+      "biome": "foret"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": 2,
+      "biome": "montagne"
+    },
+    {
+      "coord_q": 16,
+      "coord_r": 3,
+      "biome": "lac"
+    }
+  ]
+}
