@@ -8,13 +8,13 @@ pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pack = TexturePack("Assets/Realistic_Pack/Realistic_Pack.json")
-fond = "Assets/fond.png"
-
 monde = Carte(MAP_SIZE_X,MAP_SIZE_Y)
 monde.generer(biomes_disponibles)
 sauvegarde_actuelle = "save-1"
+swip = False
+last_mouse_pos = None
 
-hex_calculateur = Hexagone([DEPART_X, DEPART_Y])
+hex_calculateur = Hexagone([0, 0])
 
 running = True
 while running:
@@ -22,11 +22,25 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_pos = pygame.mouse.get_pos()
-            hexagone_cible = monde.get_hex_at_position(mouse_pos)
-            if hexagone_cible:
-                coord_q, coord_r = hexagone_cible.coordonnees_axiales
-                print(f"Coordonnées: {coord_q}, {coord_r}, Biome: {hexagone_cible.biome}")
+            if event.button == 1 :
+                mouse_pos = pygame.mouse.get_pos()
+                hexagone_cible = monde.get_hex_at_position(mouse_pos)
+                if hexagone_cible:
+                    coord_q, coord_r = hexagone_cible.coordonnees_axiales
+                    print(f"Coordonnées: {coord_q}, {coord_r}, Biome: {hexagone_cible.biome}")
+            if event.button == 3:
+                swip = True
+                last_mouse_pos = pygame.mouse.get_pos()
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 3:
+                swip = False
+        if event.type == pygame.MOUSEMOTION:
+            if swip:
+                current_mouse_pos = pygame.mouse.get_pos()
+                dx = current_mouse_pos[0] - last_mouse_pos[0]
+                dy = current_mouse_pos[1] - last_mouse_pos[1]
+                monde.swip(dx, dy)
+                last_mouse_pos = current_mouse_pos
         if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_F5:
                         save_map(monde, sauvegarde_actuelle)

@@ -1,15 +1,14 @@
-SCREEN_WIDTH = 1170
-SCREEN_HEIGHT = 940
+SCREEN_WIDTH = 1600
+SCREEN_HEIGHT = 900
 FRAMERATE = 75
 
-HEX_RADIUS = 50
+HEX_RADIUS = 100
 
-DEPART_X = 0
-DEPART_Y = 0
-MAP_SIZE_X = 17
-MAP_SIZE_Y = 12
+MAP_SIZE_X = 100
+MAP_SIZE_Y = 50
 
 COLOR_RED = (255, 0, 0)
+COLOR_BLACK = (0, 0, 0)
 
 biomes_disponibles = ["montagne", "plaine", "foret", "sable", "lac"]
 biome_weights = {

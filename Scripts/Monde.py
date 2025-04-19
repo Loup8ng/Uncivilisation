@@ -11,8 +11,8 @@ class Hexagone:
         self.biome = biome
 
     def charger_sprite(self, chemin_sprite:str) -> None:
-        """Charge le sprite d'un hexagone de la bonne taille (+1 pour éviter le gap entre les hexs)"""
-        return pygame.transform.scale(pygame.image.load(chemin_sprite).convert_alpha(), (self.radius * 2 + 1, self.radius_vertical() * 2 + 1))
+        """Charge le sprite d'un hexagone de la bonne taille (+2 pour éviter le gap entre les hexs)"""
+        return pygame.transform.scale(pygame.image.load(chemin_sprite).convert_alpha(), (self.radius * 2 + 2, self.radius_vertical() * 2 + 2))
 
     def radius_vertical(self) -> float:
         """Rayon vertical de l'hexagone"""
@@ -20,19 +20,19 @@ class Hexagone:
 
     def coord_centre(self) -> tuple[float, float]:
         """Renvoie les coordonnées pixels du centre de l'hexagone"""
-        q, r = self.coordonnees_axiales
-        return self.hex_to_pixel(q, r)
+        coord_q, coord_r = self.coordonnees_axiales
+        return self.hex_to_pixel(coord_q, coord_r)
 
-    def hex_to_pixel(self, q:int, r:int) -> tuple[float, float]:
+    def hex_to_pixel(self, coord_q:int, coord_r:int) -> tuple[float, float]:
         """Converti les coordonées axiales en pixels"""
-        coord_x = DEPART_X + self.radius * (3/2 * q)
-        coord_y = DEPART_Y + self.radius * (math.sqrt(3)/2 * q + math.sqrt(3) * r)
+        coord_x = self.radius * (3/2 * coord_q)
+        coord_y = self.radius * (math.sqrt(3)/2 * coord_q + math.sqrt(3) * coord_r)
         return (coord_x, coord_y)
 
     def pixel_to_hex(self, pos:tuple[float,float]) -> tuple[int, int]:
         """Converti les coordonées pixels en axiales en utilisant les calcules de sorcier trouvés sur internet"""
-        coord_x = pos[0] - DEPART_X
-        coord_y = pos[1] - DEPART_Y
+        coord_x = pos[0]
+        coord_y = pos[1]
 
         size = self.radius
         coord_q = (coord_x * 2/3) / size
@@ -58,43 +58,66 @@ class Hexagone:
             coord_z_cube_round = -coord_x_cube_round - coord_y_cube_round
         return (coord_x_cube_round, coord_z_cube_round)
 
-    def dessin(self, screen, texture_pack, debugging:bool = False) -> None:
-        """Affiche le sprite de l'hexagone en fonction de son biome, si debugging eh bah tu imagine bien ce que ça fait"""
-        centre_x, centre_y = self.coord_centre()
-        chemin_sprite = texture_pack.get(self.biome)
-        sprite = self.charger_sprite(chemin_sprite)
-        rect_sprite = sprite.get_rect()
-        screen.blit(sprite, (centre_x - rect_sprite.width // 2, centre_y - rect_sprite.height // 2))
-        if debugging:
-            screen.fill(COLOR_RED, (centre_x - 2, centre_y - 2, 4, 4))
-            font = pygame.font.Font(None, 24)
-            coord_text = font.render(f"{self.coordonnees_axiales[0]}, {self.coordonnees_axiales[1]}", True, (0, 0, 0))
-            text_rect = coord_text.get_rect(center=(centre_x, centre_y))
-            screen.blit(coord_text, text_rect)
-
 class Carte:
     def __init__(self, grid_width:int, grid_height:int):
         self.grid_width = grid_width
         self.grid_height = grid_height
         self.radius = HEX_RADIUS
         self.dictionnaire_hexagones = {}
+        self.coord_camera_x = 0
+        self.coord_camera_y = 0
+        self.camera_min_x = 0
+        self.camera_min_y = 0
+        self.camera_max_x = 0
+        self.camera_max_y = 0
 
     def creer_un_hex(self, coordonnees_pixels:tuple[float, float], chemin_sprite:str) -> Hexagone:
         """Créer un hexagone"""
         return Hexagone(coordonnees_pixels, chemin_sprite)
 
-    def get_hex_at_position(self, coord_point: tuple[float, float]) -> tuple[int, int]:
-        """Renvoie l'hexagone aux coordonnées x, y de coord_point"""
-        if not self.dictionnaire_hexagones:
+    def get_hex_at_position(self, coord_point: tuple[float, float]) -> Hexagone:
+        """Renvoie l'hexagone aux coordonnées x, y de coord_point en tenant compte du déplacement de la caméra"""
+        if self.dictionnaire_hexagones:
+            coord_ajuste_x = coord_point[0] - self.coord_camera_x
+            coord_ajuste_y = coord_point[1] - self.coord_camera_y
+            hex_calculateur = Hexagone([0, 0])
+            coord_q, coord_r = hex_calculateur.pixel_to_hex((coord_ajuste_x, coord_ajuste_y))
+            return self.dictionnaire_hexagones.get((coord_q, coord_r))
+        else :
             return None
-        hexagone = list(self.dictionnaire_hexagones.values())[0]
-        q, r = hexagone.pixel_to_hex(coord_point)
-        return self.dictionnaire_hexagones.get((q, r))
+
+    def calculer_bords_map(self):
+        """Calcule les coordonnées des bords de la map"""
+        self.camera_min_x = float('inf')
+        self.camera_min_y = float('inf')
+        self.camera_max_x = float('-inf')
+        self.camera_max_y = float('-inf')
+        for hexagone in self.dictionnaire_hexagones.values():
+            coord_centre_x, coord_centre_y = hexagone.coord_centre()
+            self.camera_min_x = min(self.camera_min_x, coord_centre_x - hexagone.radius/2.5)
+            self.camera_min_y = min(self.camera_min_y, coord_centre_y )
+            self.camera_max_x = max(self.camera_max_x, coord_centre_x + hexagone.radius/2.5)
+            self.camera_max_y = max(self.camera_max_y, coord_centre_y )
 
     def dessin(self, screen, texture_pack, debugging=False) -> None:
-        """Dessine la grille d'hexagones sur l'écran, et peut être les graphismes débug aussi"""
-        for hexagones in self.dictionnaire_hexagones.values():
-            hexagones.dessin(screen, texture_pack, debugging)
+        """Dessine uniquement les hexagones visibles à l'écran avec une marge quand même (buffer)"""
+        buffer = HEX_RADIUS
+        for coords, hexagone in self.dictionnaire_hexagones.items():
+            coord_centre_x, coord_centre_y = hexagone.coord_centre()
+            coord_screen_x = coord_centre_x + self.coord_camera_x
+            coord_screen_y = coord_centre_y + self.coord_camera_y
+            if (-buffer <= coord_screen_x <= SCREEN_WIDTH + buffer and 
+                -buffer <= coord_screen_y <= SCREEN_HEIGHT + buffer):
+                chemin_sprite = texture_pack.get(hexagone.biome)
+                sprite = hexagone.charger_sprite(chemin_sprite)
+                rect_sprite = sprite.get_rect()
+                screen.blit(sprite, (coord_screen_x - rect_sprite.width // 2, coord_screen_y - rect_sprite.height // 2))
+                if debugging:
+                    screen.fill(COLOR_RED, (coord_screen_x - 2, coord_screen_y - 2, 4, 4))
+                    font = pygame.font.Font(None, 24)
+                    coord_text = font.render(f"{hexagone.coordonnees_axiales[0]}, {hexagone.coordonnees_axiales[1]}", True, COLOR_BLACK)
+                    text_rect = coord_text.get_rect(center=(coord_screen_x, coord_screen_y))
+                    screen.blit(coord_text, text_rect)
 
     def get_voisins(self, coord_q:int, coord_r:int) -> list[Hexagone]:
         """Renvois une liste de voisin de l'hexagone de coordonées (q, r)"""
@@ -108,19 +131,28 @@ class Carte:
                 liste_voisins.append(self.dictionnaire_hexagones[voisin_coord])
         return liste_voisins
 
+    def swip(self, direction_x:float, direction_y:float) -> None:
+        """Bouge la caméra avec direction_x et direction_y, bloque si on touche les limites de la map"""
+        deplacement_camera_x = self.coord_camera_x + direction_x
+        deplacement_camera_y = self.coord_camera_y + direction_y
+        if self.camera_min_x == float('inf') or self.camera_max_x == float('-inf'):
+            self.calculer_bords_map()
+        left_limit = -self.camera_min_x
+        right_limit = SCREEN_WIDTH - self.camera_max_x
+        top_limit = -self.camera_min_y
+        bottom_limit = SCREEN_HEIGHT - self.camera_max_y
+        self.coord_camera_x = max(min(deplacement_camera_x, left_limit), right_limit)
+        self.coord_camera_y = max(min(deplacement_camera_y, top_limit), bottom_limit)
+
     def generer(self, biomes:list[str]) -> None:
         """Génère une carte en tenant compte des biomes voisins, les pourcentages sont indiqués dans biome weight"""
         self.dictionnaire_hexagones = {}
-        
-        for q in range(self.grid_width):
-            q_offset = q // 2
-            for r in range(-q_offset, self.grid_height - q_offset):
-                hex_temp = Hexagone([0, 0], "", q, r)
-                x, y = hex_temp.hex_to_pixel(q, r)
-                if x < -self.radius or y < -self.radius or x > SCREEN_WIDTH + self.radius or y > SCREEN_HEIGHT + self.radius:
-                    continue
-                voisin_coords = [(q+direction_q, r+direction_r) for direction_q, direction_r in [(1, 0), (1, -1), (0, -1), (-1, 0), (-1, 1), (0, 1)]]
-                existing_voisins = [self.dictionnaire_hexagones.get((coord_voisin_q, coord_voisin_r)) for coord_voisin_q, coord_voisin_r in voisin_coords if (coord_voisin_q, coord_voisin_r) in self.dictionnaire_hexagones]
+        for coord_q in range(self.grid_width):
+            q_offset = coord_q // 2
+            for coord_r in range(-q_offset, self.grid_height - q_offset):
+                hex_calculateur = Hexagone([0, 0], "", coord_q, coord_r)
+                coord_x, coord_y = hex_calculateur.hex_to_pixel(coord_q, coord_r)
+                existing_voisins = self.get_voisins(coord_q, coord_r)
                 biome_scores = {}
                 if existing_voisins:
                     for voisin in existing_voisins:
@@ -134,4 +166,5 @@ class Carte:
                     biome_choisi = random.choices(biomes_possibles, weights=poids_biomes, k=1)[0] if biomes_possibles else random.choice(biomes)
                 else:
                     biome_choisi = random.choice(biomes)
-                self.dictionnaire_hexagones[(q, r)] = Hexagone([x, y], biome_choisi, q, r)
+                self.dictionnaire_hexagones[(coord_q, coord_r)] = Hexagone([coord_x, coord_y], biome_choisi, coord_q, coord_r)
+        self.calculer_bords_map()
