@@ -66,6 +66,7 @@ class Carte:
         self.camera_max_x = 0
         self.camera_max_y = 0
         self.valeur_zoom = 1.0
+        self.font = pygame.font.Font(None, 24)
 
     def creer_un_hex(self, coordonnees_pixels:tuple[float, float], chemin_sprite:str) -> Hexagone:
         """Créer un hexagone, note: parfois pour faire des calculs il est nécessaire d'avoir un hexagone temporaire pour. (c'est l'hex_calculateur)"""
@@ -166,8 +167,7 @@ class Carte:
                 screen.blit(sprite, (coord_screen_x - rect_sprite.width // 2, coord_screen_y - rect_sprite.height // 2))
                 if is_coordonnees_visibles:
                     screen.fill(COLOR_RED, (coord_screen_x - 2, coord_screen_y - 2, 4, 4))
-                    font = pygame.font.Font(None, 24)
-                    coord_text = font.render(f"{hexagone.coordonnees_axiales[0]}, {hexagone.coordonnees_axiales[1]}", True, (0, 0, 0))
+                    coord_text = self.font.render(f"{hexagone.coordonnees_axiales[0]}, {hexagone.coordonnees_axiales[1]}", True, (0, 0, 0))
                     text_rect = coord_text.get_rect(center=(coord_screen_x, coord_screen_y))
                     screen.blit(coord_text, text_rect)
 

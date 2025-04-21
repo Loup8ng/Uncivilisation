@@ -21,6 +21,7 @@ is_coordonnees_visibles = False
 
 running = True
 while running:
+    pygame.display.set_caption(str(clock.get_fps()))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
