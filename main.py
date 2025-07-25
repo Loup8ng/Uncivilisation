@@ -7,7 +7,7 @@ from Scripts.SaveManager import *
 pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-texture_pack = TexturePack("Assets/Classic_Pack/Classic_Pack.json")
+texture_pack = TexturePack("Assets/Realistic_Pack/Realistic_Pack.json")
 
 monde = Carte(MAP_SIZE_X,MAP_SIZE_Y)
 monde.generer(biomes_disponibles)
