@@ -31,7 +31,7 @@ while running:
                 hexagone_cible = monde.get_hex_at_position(mouse_pos)
                 if hexagone_cible:
                     coord_q, coord_r = hexagone_cible.coordonnees_axiales
-                    print(f"Coordonnées: {coord_q}, {coord_r}, Biome: {hexagone_cible.biome}")
+                    print(f"Coordonnées: {coord_q}, {coord_r}, Biome: {hexagone_cible.biome}, ressources: {hexagone_cible.ressources_biomes}")
             if event.button == 3:
                 swipping = True
                 last_mouse_pos = pygame.mouse.get_pos()

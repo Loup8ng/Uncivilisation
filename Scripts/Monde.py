@@ -4,11 +4,12 @@ import random
 from Scripts.Variables_Globales import *
 
 class Hexagone:
-    def __init__(self, coordonnees_pixels:list[float, float], biome:str = "", coord_q:int = 0, coord_r:int = 0):
+    def __init__(self, coordonnees_pixels:list[float, float], biome:str = "", coord_q:int = 0, coord_r:int = 0,ressources=0):
         self.radius = HEX_RADIUS
         self.coordonnees_pixels = coordonnees_pixels
         self.coordonnees_axiales = [coord_q, coord_r]
         self.biome = biome
+        self.ressources_biomes = ressources
 
     def charger_sprite(self, chemin_sprite:str) -> None:
         """Charge le sprite d'un hexagone de la bonne taille (+2 pixels pour éviter le gap entre les hexs)"""
@@ -171,6 +172,10 @@ class Carte:
                     text_rect = coord_text.get_rect(center=(coord_screen_x, coord_screen_y))
                     screen.blit(coord_text, text_rect)
 
+    def attribution_ressources(self):
+        return random.randint(1,100000)
+        
+
     def generer(self, biomes:list[str]) -> None:
         """Génère une carte en tenant compte des biomes voisins, les pourcentages sont indiqués dans biome weight"""
         self.dictionnaire_hexagones = {}
@@ -193,5 +198,5 @@ class Carte:
                     biome_choisi = random.choices(biomes_possibles, weights=poids_biomes, k=1)[0] if biomes_possibles else random.choice(biomes)
                 else:
                     biome_choisi = random.choice(biomes)
-                self.dictionnaire_hexagones[(coord_q, coord_r)] = Hexagone([coord_x, coord_y], biome_choisi, coord_q, coord_r)
+                self.dictionnaire_hexagones[(coord_q, coord_r)] = Hexagone([coord_x, coord_y], biome_choisi, coord_q, coord_r,self.attribution_ressources())
         self.calculer_bords_map()

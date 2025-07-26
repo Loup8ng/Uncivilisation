@@ -15,6 +15,7 @@ COLOR_RED = (255, 0, 0)
 COLOR_BLACK = (0, 0, 0)
 
 biomes_disponibles = ["montagne", "plaine", "foret", "sable", "lac"]
+ressources_biomes = {"montagne":None, "plaine":None,"foret":None,"sable":None,"lac":None}
 biome_weights = {
     "plaine":     {"montagne": 0 ,"plaine": 35, "foret": 50, "sable": 15, "lac": 0},
     "foret":      {"montagne": 60,"plaine": 20, "foret": 20, "sable": 0 , "lac": 0},
