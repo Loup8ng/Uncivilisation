@@ -20,6 +20,7 @@ hex_calculateur = Hexagone([0, 0])
 is_coordonnees_visibles = False
 
 running = True
+fenetre_ouverte=False
 while running:
     pygame.display.set_caption(str(clock.get_fps()))
     for event in pygame.event.get():
@@ -70,8 +71,24 @@ while running:
                     is_coordonnees_visibles = False
                 else:
                     is_coordonnees_visibles = True
+            if event.key == pygame.K_c:
+                # Toggle affichage de la "fenêtre"
+                fenetre_ouverte = not fenetre_ouverte
+
+                
 
     screen.fill((255, 255, 255))
     monde.dessin(screen, texture_pack, is_coordonnees_visibles)
+
+    if fenetre_ouverte:
+        overlay = pygame.Surface((400, 300), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))  # fond semi-transparent
+        screen.blit(overlay, (200, 150))
+        pygame.draw.rect(screen, (255, 255, 255), (200, 150, 400, 300), 3)
+
+        font = pygame.font.SysFont("arial", 24)
+        texte = font.render("Fenêtre ouverte (appuie sur C pour fermer)", True, (255, 255, 255))
+        screen.blit(texte, (220, 160))
+        
     pygame.display.flip()
     clock.tick(FRAMERATE)
