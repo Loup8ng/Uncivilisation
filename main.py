@@ -27,7 +27,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1 :
+            if event.button == 1 and not fenetre_ouverte:
                 mouse_pos = pygame.mouse.get_pos()
                 hexagone_cible = monde.get_hex_at_position(mouse_pos)
                 if hexagone_cible:
@@ -74,6 +74,21 @@ while running:
             if event.key == pygame.K_c:
                 # Toggle affichage de la "fenêtre"
                 fenetre_ouverte = not fenetre_ouverte
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if fenetre_ouverte and event.button == 1:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+
+                 # Dans le traitement des clics
+                bouton_rect = pygame.Rect(210, 160, 200, 40)
+                if bouton_rect.collidepoint(mouse_x, mouse_y):
+                    fenetre_ouverte = False
+                # Rectangle de la "fenêtre"
+                fenetre_rect = pygame.Rect(200, 150, 500, 400)
+                if fenetre_rect.collidepoint(mouse_x, mouse_y):
+                   pass
+                else:
+                    fenetre_ouverte = not fenetre_ouverte
+
 
                 
 
@@ -81,14 +96,19 @@ while running:
     monde.dessin(screen, texture_pack, is_coordonnees_visibles)
 
     if fenetre_ouverte:
-        overlay = pygame.Surface((400, 300), pygame.SRCALPHA)
+        overlay = pygame.Surface((500, 400), pygame.SRCALPHA)
         overlay.fill((0, 0, 0, 180))  # fond semi-transparent
         screen.blit(overlay, (200, 150))
-        pygame.draw.rect(screen, (255, 255, 255), (200, 150, 400, 300), 3)
+        pygame.draw.rect(screen, (255, 255, 255), (200, 150, 500, 400), 3)
 
         font = pygame.font.SysFont("arial", 24)
-        texte = font.render("Fenêtre ouverte (appuie sur C pour fermer)", True, (255, 255, 255))
+        texte = font.render("Menu de contruction (appuie sur C pour fermer)", True, (255, 255, 255))
         screen.blit(texte, (220, 160))
-        
+
+        # Dans le dessin de la fenêtre
+        rect1=pygame.draw.rect(screen, (100, 200, 100), (210, 160, 150, 100))  # bouton vert
+        image_boutton1 = pygame.transform.scale(pygame.image.load("Assets/mine_lvl_1.png"),(150, 100)).convert_alpha()
+        screen.blit(image_boutton1, (210, 160))
+
     pygame.display.flip()
     clock.tick(FRAMERATE)

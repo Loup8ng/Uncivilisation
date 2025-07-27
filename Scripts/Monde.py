@@ -174,6 +174,9 @@ class Carte:
 
     def attribution_ressources(self):
         return random.randint(1,100000)
+    
+    def constrution_batiments(coord_q,coord_r,batiment): 
+        pass
         
 
     def generer(self, biomes:list[str]) -> None:

@@ -2,7 +2,7 @@ from pygame import *
 import  csv
 
 class Batiment():
-    def __init__(self,nom,cout,temps_construction,capacite_stockage=None,prerequis=None):
+    def __init__(self,nom,cout,temps_construction,capacite_stockage=None,prerequis=None,production=1):
         """Permet d'initialiser les batiments, en donnant :le nom du batiment, 
         son coût en ressources, son temps de construction, sa capacité de stockage 
         si il en as une, et des prérequis pour pouvoir le construire si il y en a."""
@@ -11,6 +11,8 @@ class Batiment():
         self.temps_construction = temps_construction
         self.capacite_stockage = capacite_stockage
         self.prerequis = prerequis
+        self.production = production
+        
 
     def afficher_infos(self):
         """Retourne une chaîne contenant toutes les infos du bâtiment."""
